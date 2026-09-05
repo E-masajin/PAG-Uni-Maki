@@ -2,6 +2,9 @@ import type { MetadataRoute } from "next";
 import { absoluteUrl } from "@/lib/site";
 import { categorySlugs, getAllPosts, getAllTags } from "@/lib/posts";
 
+/** ビルド時に静的ファイルとして書き出す */
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts();
   const latestPostDate = posts[0]?.date ? new Date(posts[0].date) : new Date();

@@ -6,6 +6,9 @@ export const alt = siteConfig.title;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+/** ビルド時に PNG として書き出す */
+export const dynamic = "force-static";
+
 /** サイト全体の既定 OGP */
 export default async function Image() {
   const heading = "うにと、まきと、暮らす。";

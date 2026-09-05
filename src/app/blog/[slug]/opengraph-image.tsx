@@ -7,6 +7,9 @@ export const alt = "記事のタイトル";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+/** ビルド時に PNG として書き出す */
+export const dynamic = "force-static";
+
 export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
 }
