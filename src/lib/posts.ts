@@ -7,7 +7,6 @@ import remarkParse from "remark-parse";
 import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import rehypeSlug from "rehype-slug";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeStringify from "rehype-stringify";
 
 export const POSTS_DIR = path.join(process.cwd(), "src", "content", "posts");
@@ -175,11 +174,8 @@ const markdownProcessor = unified()
   .use(remarkParse)
   .use(remarkGfm)
   .use(remarkRehype)
+  // 見出しに id を振る。記事内の目次から #id で飛べるようにするため
   .use(rehypeSlug)
-  .use(rehypeAutolinkHeadings, {
-    behavior: "wrap",
-    properties: { className: "heading-anchor" },
-  })
   .use(rehypeStringify);
 
 /** 見出しを目次用に抜き出す（h2 / h3 のみ） */
