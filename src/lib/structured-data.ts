@@ -5,7 +5,7 @@
 
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import type { Post } from "@/lib/posts";
-import { categories } from "@/lib/posts";
+import { categories } from "@/lib/categories";
 
 type JsonLd = Record<string, unknown>;
 

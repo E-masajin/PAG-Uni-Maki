@@ -1,26 +1,600 @@
+/* ==========================================================
+   うにとまき — デザインシステム v1.0
+   値は OKLCH。コメントの HEX は sRGB 近似
+   ========================================================== */
 @import "tailwindcss";
 
+/* next-themes が <html data-theme="dark|light"> を付与する */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+
+  /* --- ブランド定数（直接使わない） --- */
+  --brand-uni: oklch(0.78 0.14 68); /* #F2A548 うに琥珀 */
+  --brand-maki: oklch(0.38 0.05 165); /* #274B3C まき海苔 */
+  --brand-shari: oklch(0.985 0.005 85); /* #FCFAF6 酢飯の白 */
+  --brand-sumi: oklch(0.19 0.015 60); /* #19120D 墨 */
+
+  /* --- 背景・面 --- */
+  --paper: oklch(0.985 0.005 85);
+  --card: oklch(0.997 0.002 85);
+  --well: oklch(0.965 0.008 85);
+  --hover: oklch(0.955 0.01 85);
+  --photo-well: #ffffff; /* 商品パッケージ写真の台（両モード固定） */
+
+  /* --- 境界 --- */
+  --line: oklch(0.9 0.012 85); /* 装飾の区切り線 */
+  --line-strong: oklch(0.64 0.015 80); /* 操作要素の枠。3:1 以上 */
+
+  /* --- 文字 --- */
+  --ink: oklch(0.27 0.012 60);
+  --ink-strong: oklch(0.19 0.015 60);
+  --ink-muted: oklch(0.47 0.015 60);
+  --ink-subtle: oklch(0.6 0.012 60); /* 非テキスト用。本文には使わない */
+
+  /* --- アクセント（うに・焦がし琥珀） --- */
+  --accent: oklch(0.56 0.15 50);
+  --accent-hover: oklch(0.5 0.15 48);
+  --accent-active: oklch(0.46 0.14 46);
+  --on-accent: #ffffff;
+  --accent-soft: oklch(0.95 0.035 75);
+  --on-accent-soft: oklch(0.42 0.13 48);
+
+  /* --- リンク --- */
+  --link: oklch(0.48 0.14 48);
+  --link-hover: oklch(0.42 0.14 46);
+
+  /* --- セカンダリ（まき・海苔墨） --- */
+  --secondary: oklch(0.38 0.05 165);
+  --on-secondary: #ffffff;
+  --secondary-soft: oklch(0.94 0.025 165);
+  --on-secondary-soft: oklch(0.34 0.06 165);
+
+  /* --- 状態色 --- */
+  --success: oklch(0.5 0.12 150);
+  --warning: oklch(0.52 0.11 85);
+  --danger: oklch(0.53 0.19 27);
+  --danger-soft: oklch(0.95 0.03 27);
+  --on-danger-soft: oklch(0.42 0.17 27);
+
+  /* --- その他 --- */
+  --ring: var(--accent);
+  --scrim: oklch(0.18 0.01 60 / 0.6);
+  --shadow-sm: 0 1px 2px oklch(0.19 0.015 60 / 0.06);
+  --shadow-md: 0 8px 24px -8px oklch(0.19 0.015 60 / 0.18);
+
+  /* --- モーション --- */
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 400ms;
+  --dur-slower: 600ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --paper: oklch(0.21 0.009 60); /* 黒ではなく温かいチャコール */
+  --card: oklch(0.25 0.01 60);
+  --well: oklch(0.18 0.008 60);
+  --hover: oklch(0.29 0.011 60);
+  --photo-well: #ffffff;
+
+  --line: oklch(0.33 0.011 60);
+  --line-strong: oklch(0.55 0.012 60);
+
+  --ink: oklch(0.9 0.012 80); /* 純白を避けてグレアを抑える */
+  --ink-strong: oklch(0.96 0.008 80);
+  --ink-muted: oklch(0.71 0.014 80);
+  --ink-subtle: oklch(0.6 0.012 80);
+
+  --accent: oklch(0.78 0.14 68);
+  --accent-hover: oklch(0.83 0.13 72);
+  --accent-active: oklch(0.74 0.14 66);
+  --on-accent: oklch(0.2 0.03 60); /* 墨色の文字 */
+  --accent-soft: oklch(0.3 0.05 60);
+  --on-accent-soft: oklch(0.86 0.11 72);
+
+  --link: oklch(0.8 0.12 70);
+  --link-hover: oklch(0.86 0.11 74);
+
+  --secondary: oklch(0.72 0.07 165);
+  --on-secondary: oklch(0.18 0.03 165);
+  --secondary-soft: oklch(0.28 0.04 165);
+  --on-secondary-soft: oklch(0.83 0.08 165);
+
+  --success: oklch(0.72 0.12 150);
+  --warning: oklch(0.78 0.12 85);
+  --danger: oklch(0.72 0.16 25);
+  --danger-soft: oklch(0.3 0.06 25);
+  --on-danger-soft: oklch(0.86 0.1 25);
+
+  --ring: var(--accent);
+  --scrim: oklch(0.1 0.01 60 / 0.7);
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3);
+  --shadow-md: 0 8px 24px -8px oklch(0 0 0 / 0.55);
+}
+
+/* --- Tailwind v4 へのブリッジ --- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-well: var(--well);
+  --color-hover: var(--hover);
+  --color-photo-well: var(--photo-well);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-strong: var(--ink-strong);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-active: var(--accent-active);
+  --color-on-accent: var(--on-accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent-soft: var(--on-accent-soft);
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+  --color-secondary: var(--secondary);
+  --color-on-secondary: var(--on-secondary);
+  --color-secondary-soft: var(--secondary-soft);
+  --color-on-secondary-soft: var(--on-secondary-soft);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-on-danger-soft: var(--on-danger-soft);
+  --color-ring: var(--ring);
+  --color-scrim: var(--scrim);
+
+  --font-sans: var(--font-noto-sans-jp), var(--font-inter), "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), var(--font-shippori-mincho),
+    "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  /* 版面のリズム */
+  --spacing-gutter: clamp(1rem, 4vw, 2rem);
+  --spacing-block: clamp(1.5rem, 3vw, 2.5rem);
+  --spacing-section: clamp(4rem, 6vw + 1rem, 7rem);
+  --spacing-section-lg: clamp(5rem, 8vw + 1rem, 9rem);
+
+  /* コンテナ幅 */
+  --container-prose: 40rem;
+  --container-breakout: 56rem;
+  --container-content: 72rem;
+  --container-wide: 90rem;
+
+  /* 角丸は 3 段階＋円形のみ。中間値を作らない */
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-full: 9999px;
+}
+
+/* ==========================================================
+   ベース
+   ========================================================== */
+html {
+  font-family: var(--font-sans);
+  line-break: strict;
+  overflow-wrap: anywhere;
+  text-autospace: normal;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color var(--dur-base), color var(--dur-base);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  line-height: 1.9;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+h1,
+h2,
+.display,
+.card-title {
+  text-wrap: balance;
+  word-break: auto-phrase;
+  font-feature-settings: "palt" 1; /* 見出しのみ。本文には使わない */
+  hanging-punctuation: allow-end;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+.tabular,
+time,
+.price {
+  font-feature-settings: "tnum" 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* フォーカス。outline: none を単独で書かない */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--on-accent-soft);
+}
+
+/* ==========================================================
+   タイプスケール（§3.2）
+   明朝は 22px 以上でのみ使う
+   ========================================================== */
+.type-display {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(2.25rem, 1.6rem + 2.8vw, 3.75rem);
+  line-height: 1.25;
+  letter-spacing: 0.03em;
+}
+
+.type-h1 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 1.45rem + 1.3vw, 2.5rem);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+
+.type-h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.375rem, 1.25rem + 0.6vw, 1.75rem);
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+}
+
+.type-h3 {
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+.type-h4 {
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+.type-lead {
+  font-size: 1.125rem;
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+}
+
+.type-body-sm {
+  font-size: 0.875rem;
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+}
+
+.type-caption {
+  font-size: 0.75rem;
+  line-height: 1.6;
+  letter-spacing: 0.03em;
+}
+
+/* セクションラベル（JOURNAL, GOODS）。欧文は Fraunces */
+.type-overline {
+  font-size: 0.75rem;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: none;
+}
+
+.type-overline-en {
+  font-family: var(--font-serif);
+  font-size: 0.75rem;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.type-price {
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.2;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.type-nav {
+  font-size: 0.9375rem;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* ==========================================================
+   記事本文（Prose）§3.3
+   ========================================================== */
+.prose {
+  max-width: var(--container-prose);
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--ink);
+}
+
+@media (min-width: 64rem) {
+  .prose {
+    font-size: 1.0625rem;
+  }
+}
+
+.prose > * + * {
+  margin-block-start: 1.6em;
+}
+
+.prose h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.375rem, 1.25rem + 0.6vw, 1.75rem);
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  color: var(--ink-strong);
+  /* 見出しは前の空きを後の空きの 3 倍にして所属を明確に */
+  margin-block-start: 3em;
+  margin-block-end: 1em;
+  scroll-margin-top: 6rem;
+}
+
+.prose h3 {
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--ink-strong);
+  margin-block-start: 2.25em;
+  margin-block-end: 0.75em;
+  scroll-margin-top: 6rem;
+}
+
+.prose h4 {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--ink-strong);
+  margin-block-start: 2em;
+  margin-block-end: 0.5em;
+}
+
+.prose strong {
+  font-weight: 700; /* 色は変えない。マーカー風の強調は使わない */
+  color: var(--ink-strong);
+}
+
+.prose a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.prose a:hover {
+  color: var(--link-hover);
+}
+
+.prose ul,
+.prose ol {
+  padding-inline-start: 1.25em;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li + li {
+  margin-block-start: 0.5em;
+}
+
+.prose li::marker {
+  color: var(--ink-subtle);
+}
+
+.prose blockquote {
+  border-inline-start: 2px solid var(--accent);
+  padding-inline-start: 1.25rem;
+  color: var(--ink);
+  font-style: normal;
+}
+
+.prose blockquote p {
+  margin-block: 0;
+}
+
+.prose blockquote > * + * {
+  margin-block-start: 0.75em;
+}
+
+.prose img {
+  border-radius: var(--radius-md);
+}
+
+.prose figcaption {
+  font-size: 0.75rem;
+  line-height: 1.6;
+  letter-spacing: 0.03em;
+  color: var(--ink-muted);
+  margin-block-start: 0.5rem;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin-block: 3em;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--well);
+  padding: 0.15em 0.35em;
+  border-radius: var(--radius-xs);
+}
+
+.prose pre {
+  background: var(--well);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+}
+
+/* 表は横に溢れさせず、自身の中でスクロールさせる */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+@media (min-width: 40rem) {
+  .prose table {
+    display: table;
+    white-space: normal;
+  }
+}
+
+.prose th,
+.prose td {
+  border: 1px solid var(--line);
+  padding: 0.625rem 0.875rem;
+  text-align: start;
+  vertical-align: top;
+}
+
+.prose th {
+  background: var(--well);
+  font-weight: 700;
+  color: var(--ink-strong);
+}
+
+/* ==========================================================
+   ユーティリティ
+   ========================================================== */
+
+/* スクリーンリーダー専用テキスト */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* 本文へスキップ。フォーカス時のみ表示 */
+.skip-link {
+  position: absolute;
+  inset-inline-start: 1rem;
+  inset-block-start: -100%;
+  z-index: 100;
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  inset-block-start: 1rem;
+}
+
+/* カード全体をクリック領域にする（タイトルの a に張る） */
+.card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+/* 2行・3行で省略 */
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+/* ヒーローのテキスト出現（初回のみ）。
+   初期状態を opacity: 1 にしておき、JS ではなく CSS の
+   no-preference クエリ内でのみアニメーションさせる */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-rise {
+    animation: hero-rise var(--dur-slow) var(--ease-out) both;
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 移動と拡大は完全に消し、状態変化は即時にする */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+    --dur-slower: 0ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
