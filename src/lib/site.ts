@@ -21,9 +21,35 @@ const instagramHandle = process.env.NEXT_PUBLIC_INSTAGRAM_HANDLE ?? "uni_maki";
 const xHandle = process.env.NEXT_PUBLIC_X_HANDLE ?? "uni_maki";
 const tiktokHandle = process.env.NEXT_PUBLIC_TIKTOK_HANDLE ?? "uni_maki";
 
-const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://uni-maki.example.com";
+/**
+ * 公開 URL の解決。
+ *
+ * 独自ドメインを NEXT_PUBLIC_SITE_URL に入れれば、それが常に優先される。
+ * 未設定でも Vercel 上では自動で正しい URL になるよう、Vercel の環境変数を順に見る
+ * （VERCEL_* はサーバーでのみ参照できるため、OGP・sitemap・構造化データで使う想定）。
+ */
+function resolveSiteUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL;
+  if (explicit) return explicit;
+
+  const productionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  if (productionUrl) return `https://${productionUrl}`;
+
+  const deploymentUrl = process.env.VERCEL_URL;
+  if (deploymentUrl) return `https://${deploymentUrl}`;
+
+  return "http://localhost:3000";
+}
+
 /** 末尾スラッシュを落として正規化する（URL 結合時の二重スラッシュ防止） */
-export const siteUrl = rawSiteUrl.replace(/\/+$/, "");
+export const siteUrl = resolveSiteUrl().replace(/\/+$/, "");
+
+/**
+ * 本番デプロイかどうか。
+ * プレビュー環境まで検索結果に載ると重複コンテンツになるため、robots で出し分ける。
+ */
+export const isProductionDeployment =
+  process.env.VERCEL_ENV === "production" || process.env.VERCEL_ENV === undefined;
 
 export const socialLinks: SocialLink[] = [
   {
