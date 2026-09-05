@@ -196,7 +196,7 @@ export default async function PostPage({ params }: Params) {
             <section>
               <p className="type-overline-en text-ink-muted">Follow</p>
               <div className="mt-4">
-                <SocialTiles className="sm:grid-cols-1" />
+                <SocialTiles layout="stack" />
               </div>
             </section>
           </div>

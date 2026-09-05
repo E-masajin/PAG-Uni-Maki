@@ -35,15 +35,16 @@ export default function HomePage() {
               priority
               rounded={false}
               sizes="(min-width: 64rem) 60vw, 100vw"
-              className="lg:h-[min(80vh,40rem)]"
+              /* モバイルは 2本目の CTA を 100svh 内に収めるため高さを抑える（比率は 4:3 のまま cover でクロップ） */
+              className="max-h-[34svh] lg:max-h-none lg:h-[min(80vh,40rem)]"
             />
-            <p className="type-caption px-gutter py-3 text-ink-muted lg:pl-6">
+            <p className="type-caption px-gutter py-2 text-ink-muted lg:py-3 lg:pl-6">
               2026年8月、近所の河川敷にて
             </p>
           </div>
 
           <div className="lg:order-1 lg:col-span-5">
-            <div className="px-gutter pb-12 pt-8 lg:py-16">
+            <div className="px-gutter pb-10 pt-4 lg:py-16">
               <p className="type-overline-en hero-rise text-ink-muted">
                 Uni &amp; Maki — A Dog Journal
               </p>
@@ -54,14 +55,14 @@ export default function HomePage() {
                 うにと、まきと、暮らす。
               </h1>
               <p
-                className="type-lead hero-rise mt-5 max-w-[34ch] text-ink"
+                className="type-lead hero-rise mt-4 max-w-[34ch] text-ink lg:mt-5"
                 style={{ animationDelay: "80ms" }}
               >
                 {uni.breed}の{uni.name}と、{maki.breed}の{maki.name}。2匹とのふつうの毎日、飼い主目線の本音レビュー、そしてこれから犬を迎える人のための準備ガイド。
               </p>
 
               <div
-                className="hero-rise mt-8 flex flex-col gap-3 sm:flex-row"
+                className="hero-rise mt-6 flex flex-col gap-3 sm:flex-row lg:mt-8"
                 style={{ animationDelay: "120ms" }}
               >
                 <ButtonLink href="/blog" size="lg" className="w-full sm:w-auto">
@@ -275,7 +276,7 @@ export default function HomePage() {
       </section>
 
       {/* 6. 毎日の2匹は、SNSで — 集客の中核 */}
-      <section className="mx-auto max-w-[var(--container-content)] px-gutter py-section">
+      <section id="follow" className="mx-auto max-w-[var(--container-content)] px-gutter py-section scroll-mt-20">
         <p className="type-overline-en text-ink-muted">Follow</p>
         <h2 className="type-h2 mt-2 text-ink-strong">毎日の2匹は、SNSで</h2>
         <p className="mt-3 max-w-[52ch] text-ink-muted">
