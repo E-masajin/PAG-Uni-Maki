@@ -37,7 +37,7 @@ export const dogs: Dog[] = [
     reading: "うに",
     breed: "パグ",
     birthday: "2021-06-10",
-    sex: "男の子",
+    sex: "女の子",
     traits: ["甘えん坊", "food-motivated", "びびり"],
     catchphrase: "呼べば来る。おやつがあれば、もっと来る。",
     introduction:
